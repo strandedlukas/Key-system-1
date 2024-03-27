@@ -1,0 +1,170 @@
+
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+local Window = Library.CreateLib("Survive the killer | Strandedlukas", "DarkTheme")
+
+local Tab = Window:NewTab("Survive The Killer")
+
+local Section = Tab:NewSection("Autofarm")
+
+Section:NewToggle("Autofarm (Exit)", "ToggleInfo", function(state)
+    if state then
+        -- Define the destination coordinates for the exit
+local exitDestination = Vector3.new(100, 50, -50)  -- Change this to the coordinates of the exit
+
+-- Function to teleport the player to the exit
+local function teleportToExit(player)
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(exitDestination)
+    end
+end
+
+-- Keep track of time passed
+local startTime = tick()
+
+-- Main loop to continuously check the time and teleport players after 2 minutes
+while true do
+    -- Check if 2 minutes have passed
+    if tick() - startTime >= 120 then
+        -- Teleport all players to the exit
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            teleportToExit(player)
+        end
+        break  -- Exit the loop after teleporting players
+    end
+    wait(1)  -- Check every second
+end
+
+    else
+        print("Toggle Off")
+    end
+end)
+
+local Section = Tab:NewSection("Esp")
+
+Section:NewButton("Esp Script", "ButtonInfo", function()
+    -- ESP script for Survive the Killer
+while true do
+    wait(1) -- Adjust the frequency of updates as needed
+
+    -- Iterate through all players in the game
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        -- Check if the player is the killer
+        if player.Character and player.Character:FindFirstChild("Backpack") then
+            local murdererModule = require(player.Character.Backpack:FindFirstChild("MurdererModule"))
+            local isMurderer = murdererModule.Murderer
+            -- Color the nametag accordingly
+            if isMurderer then
+                player.Character.Head.NameTag.SurfaceGui.Frame.TextLabel.TextColor3 = Color3.new(1, 0, 0) -- Red for killer
+            else
+                player.Character.Head.NameTag.SurfaceGui.Frame.TextLabel.TextColor3 = Color3.new(0, 1, 0) -- Green for survivors
+            end
+        end
+    end
+end
+
+end)
+
+local Section = Tab:NewSection("Teleports (Useful than autofarm)")
+
+Section:NewToggle("Teleport to killer (abuse)", "ToggleInfo", function(state)
+    if state then
+        -- Get the killer's position
+local killer = game.Workspace.Killer
+local killerPosition = killer and killer.PrimaryPart and killer.PrimaryPart.Position
+
+-- Teleport the player to the killer's position
+if killerPosition then
+    game.Players.LocalPlayer.Character:MoveTo(killerPosition)
+else
+    print("Killer not found.")
+end
+
+    else
+        print("Toggle Off")
+    end
+end)
+
+Section:NewToggle("teleport to random players", "ToggleInfo", function(state)
+    if state then
+        -- Function to teleport to a random player
+local function teleportToRandomPlayer()
+    local players = game.Players:GetPlayers()
+    if #players > 0 then
+        local randomPlayer = players[math.random(1, #players)]
+        if randomPlayer.Character then
+            local humanoidRootPart = randomPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                game.Players.LocalPlayer.Character:MoveTo(humanoidRootPart.Position)
+            end
+        end
+    else
+        print("No players found.")
+    end
+end
+
+-- Teleport to a random player
+teleportToRandomPlayer()
+
+    else
+        print("Toggle Off")
+    end
+end)
+
+local Section = Tab:NewSection("Inf Stuff")
+ 
+Section:NewButton("Inf Health", "ButtonInfo", function()
+   while true do
+    game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 999999
+    wait(1) -- Adjust the wait time as needed
+end
+
+end)
+Section:NewButton("Inf money", "ButtonInfo", function()
+    local player = game.Players.LocalPlayer
+local money = math.huge  -- Set money to infinity
+
+-- Update player's money
+player.leaderstats.Money.Value = money
+
+end)
+
+Section:NewButton("Inf Gems", "ButtonInfo", function()
+    local player = game.Players.LocalPlayer
+local gems = math.huge  -- Set gems to infinity
+
+-- Update player's gems
+player.leaderstats.Gems.Value = gems
+
+end)
+
+local Section = Tab:NewSection("Sliders `Â¡`")
+
+Section:NewSlider("WalkSpeed", "SliderInfo", 500, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+Section:NewSlider("Jump Power", "SliderInfo", 500, 0, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+local Section = Tab:NewSection("Keys Reset Every Day!")
+
+Section:NewButton("Click Here For A New Key", "ButtonInfo", function()
+    setclipboard("seriously? alright click on the other button u troller!")
+end)
+
+Section:NewButton("Get New Key", "ButtonInfo", function()
+    -- Get the local player
+local player = game.Players.LocalPlayer
+
+-- Kick the player
+player:Kick("lil bro though ðŸ˜¹")
+
+end)
+
+Section:NewButton("Join Noba", "ButtonInfo", function()
+    print("join noba")
+        setclipboard("gg/gofuckyourself")
+end)
